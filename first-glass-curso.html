@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Glass — Clube Vinhos e Sabores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:    #8B1A2D;
+  --red-lt: #A8253C;
+  --cream:  #FDFAF6;
+  --warm:   #F5EDE0;
+  --border: #E8DDD0;
+  --text:   #2E2218;
+  --muted:  #8A7D72;
+  --white:  #FFFFFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Lato', sans-serif; background: var(--white); color: var(--text); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+.label { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--red); flex-shrink: 0; }
+h2.display { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(28px, 5vw, 48px); line-height: 1.1; color: var(--text); margin-bottom: 14px; }
+h2.display em { font-style: italic; color: var(--red); }
+.lead { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 580px; }
+.container { width: 100%; max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+section { padding: 64px 0; }
+section + section { border-top: 1px solid var(--border); }
+
+/* TOPBAR */
+.topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 50; }
+.topbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--text); }
+.topbar-cta { background: var(--red); color: var(--white); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px; text-decoration: none; transition: background .2s; white-space: nowrap; }
+.topbar-cta:hover { background: var(--red-lt); }
+
+/* HERO */
+.hero { background: var(--cream); padding: 52px 0 0; border-bottom: 1px solid var(--border); }
+.hero-inner { display: grid; grid-template-columns: 1fr 1fr; align-items: end; max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+.hero-content { padding-bottom: 52px; padding-right: 48px; }
+.hero-flag { display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 1px solid var(--border); border-radius: 40px; padding: 6px 14px; font-size: 11px; color: var(--muted); margin-bottom: 28px; }
+.hero-flag strong { color: var(--red); }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(52px, 8vw, 88px); line-height: .95; color: var(--text); margin-bottom: 10px; }
+.hero-title em { font-style: italic; color: var(--red); }
+.hero-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(17px, 2.5vw, 22px); font-weight: 300; color: var(--muted); margin-bottom: 24px; font-style: italic; }
+.hero-desc { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 400px; margin-bottom: 36px; }
+.hero-price-row { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+.hero-price-num { font-family: 'Cormorant Garamond', serif; font-size: 58px; font-weight: 600; color: var(--text); line-height: 1; }
+.hero-price-num sup { font-size: 26px; vertical-align: super; }
+.hero-price-meta { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; text-decoration: none; padding: 15px 28px; transition: all .2s; cursor: pointer; border: none; }
+.btn-red { background: var(--red); color: var(--white); }
+.btn-red:hover { background: var(--red-lt); }
+.hero-visual { background: var(--warm); border-left: 1px solid var(--border); padding: 40px 32px; display: flex; flex-direction: column; gap: 14px; align-self: stretch; }
+.feat { background: var(--white); border: 1px solid var(--border); padding: 16px 18px; display: flex; align-items: flex-start; gap: 14px; }
+.feat-icon { font-size: 20px; flex-shrink: 0; }
+.feat-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.feat-text { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+/* CHIPS STRIP — mobile only */
+.chips-strip { display: none; overflow-x: auto; gap: 8px; padding: 14px 20px; background: var(--cream); border-bottom: 1px solid var(--border); scrollbar-width: none; }
+.chips-strip::-webkit-scrollbar { display: none; }
+.chip { flex-shrink: 0; display: flex; align-items: center; gap: 6px; background: var(--white); border: 1px solid var(--border); border-radius: 40px; padding: 7px 13px; font-size: 12px; color: var(--text); white-space: nowrap; }
+.chip span { font-size: 14px; }
+
+/* CARDS 3-col */
+.cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 40px; }
+.card3 { background: var(--white); padding: 28px 24px; transition: background .2s; }
+.card3:hover { background: var(--cream); }
+.card3-icon { font-size: 26px; margin-bottom: 14px; display: block; }
+.card3-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+.card3-text { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* WINES */
+.wines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 40px; }
+.wine { background: var(--white); padding: 28px 24px; transition: background .2s; }
+.wine:hover { background: var(--cream); }
+.wine-n { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 10px; }
+.wine-tag { font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+.wine-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); margin-bottom: 8px; line-height: 1.2; }
+.wine-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.wine-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 11px; color: var(--red); font-weight: 700; letter-spacing: .04em; }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
+.timeline { display: flex; flex-direction: column; margin-top: 28px; }
+.tl-item { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.tl-item:last-child { border-bottom: none; }
+.tl-time { font-size: 10px; color: var(--muted); letter-spacing: .04em; padding-top: 3px; }
+.tl-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.tl-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.incl { display: flex; flex-direction: column; }
+.incl-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.6; color: var(--text); }
+.incl-item:last-child { border-bottom: none; }
+.incl-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; }
+.incl-dot svg { width: 9px; height: 9px; }
+
+/* COMPARE */
+.compare-wrap { margin-top: 40px; overflow-x: auto; }
+.compare { width: 100%; border-collapse: collapse; min-width: 380px; }
+.compare thead th { padding: 12px 20px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; border-bottom: 2px solid var(--border); }
+.compare thead th:first-child { text-align: left; color: var(--muted); }
+.compare thead th.hl { background: var(--cream); color: var(--red); border-bottom-color: var(--red); border-top: 2px solid var(--red); text-align: center; }
+.compare thead th:last-child { color: var(--muted); text-align: center; }
+.compare tbody tr { border-bottom: 1px solid var(--border); }
+.compare tbody tr:last-child { border-bottom: none; }
+.compare tbody td { padding: 13px 20px; font-size: 14px; color: var(--text); }
+.compare tbody td.hl { background: var(--cream); color: var(--red); font-weight: 700; text-align: center; }
+.compare tbody td:last-child { text-align: center; color: var(--muted); }
+
+/* PRICE */
+.price-section { background: var(--cream); }
+.price-box { max-width: 460px; margin: 40px auto 0; background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--red); padding: 48px 40px; }
+.price-box-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--text); margin-bottom: 4px; }
+.price-box-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+.big-num { font-family: 'Cormorant Garamond', serif; font-size: 72px; font-weight: 600; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.big-num sup { font-size: 30px; vertical-align: super; }
+.big-sub { font-size: 12px; color: var(--muted); margin-bottom: 32px; }
+.chk-list { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 10px; }
+.chk-list li { display: flex; gap: 10px; font-size: 14px; color: var(--muted); align-items: flex-start; }
+.chk-list li::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+.pays { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 20px; justify-content: center; }
+.pay { font-size: 10px; font-weight: 700; padding: 5px 9px; border: 1px solid var(--border); color: var(--muted); background: var(--white); letter-spacing: .04em; }
+
+/* FAQ */
+.faq-list { max-width: 680px; margin: 40px auto 0; }
+.faq-item { border-bottom: 1px solid var(--border); cursor: pointer; }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q { padding: 20px 0; font-size: 15px; font-weight: 700; color: var(--text); display: flex; justify-content: space-between; align-items: center; gap: 16px; user-select: none; }
+.faq-q::after { content: '+'; font-size: 22px; color: var(--red); font-weight: 300; flex-shrink: 0; transition: transform .3s; }
+.faq-item.open .faq-q::after { transform: rotate(45deg); }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height .35s ease, padding-bottom .3s; }
+.faq-item.open .faq-a { max-height: 220px; padding-bottom: 18px; }
+
+/* FOOTER */
+.footer-band { background: var(--warm); border-top: 1px solid var(--border); padding: 52px 20px; text-align: center; }
+.footer-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 4vw, 38px); font-weight: 300; color: var(--text); margin-bottom: 10px; line-height: 1.2; }
+.footer-band h2 em { font-style: italic; color: var(--red); }
+.footer-band p { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+.footer-bar { background: var(--white); border-top: 1px solid var(--border); padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-bar span { font-size: 12px; color: var(--muted); }
+.footer-bar strong { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--text); font-weight: 400; }
+
+/* STICKY BAR */
+.sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); padding: 12px 20px 16px; z-index: 100; align-items: center; gap: 16px; box-shadow: 0 -4px 20px rgba(0,0,0,.06); }
+.sticky-bar-info { flex: 1; }
+.sticky-bar-label { font-size: 10px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.sticky-bar-price { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--text); line-height: 1.1; }
+.sticky-bar-btn { background: var(--red); color: var(--white); font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 13px 20px; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+.sticky-bar-btn:hover { background: var(--red-lt); }
+
+/* ANIMATION */
+@keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+.hero-content > * { animation: up .7s ease both; }
+.hero-content > *:nth-child(1){animation-delay:.05s}
+.hero-content > *:nth-child(2){animation-delay:.15s}
+.hero-content > *:nth-child(3){animation-delay:.22s}
+.hero-content > *:nth-child(4){animation-delay:.30s}
+.hero-content > *:nth-child(5){animation-delay:.38s}
+.hero-content > *:nth-child(6){animation-delay:.46s}
+
+/* TABLET */
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-content { padding-right: 0; padding-bottom: 40px; }
+  .hero-visual { display: none; }
+  .chips-strip { display: flex; }
+  .two-col { grid-template-columns: 1fr; gap: 40px; }
+  .cards-3 { grid-template-columns: 1fr 1fr; }
+  .wines { grid-template-columns: 1fr 1fr; }
+  .sticky-bar { display: flex; }
+  body { padding-bottom: 80px; }
+}
+
+/* MOBILE */
+@media (max-width: 520px) {
+  .topbar { padding: 11px 16px; }
+  .topbar-brand { font-size: 14px; }
+  .topbar-cta { font-size: 11px; padding: 9px 14px; }
+
+  .hero { padding: 32px 0 0; }
+  .hero-inner { padding: 0 16px; }
+  .hero-flag { font-size: 10px; padding: 5px 12px; margin-bottom: 20px; }
+  .hero-title { font-size: 54px; line-height: .93; margin-bottom: 8px; }
+  .hero-sub { font-size: 16px; margin-bottom: 16px; }
+  .hero-desc { font-size: 14px; margin-bottom: 26px; }
+  .hero-price-row { margin-bottom: 22px; gap: 12px; }
+  .hero-price-num { font-size: 48px; }
+  .btn { width: 100%; justify-content: center; padding: 15px 20px; font-size: 13px; }
+
+  .chips-strip { padding: 12px 16px; }
+  .chip { font-size: 11px; padding: 7px 11px; }
+
+  section { padding: 44px 0; }
+  .container { padding: 0 16px; }
+  h2.display { font-size: 26px; }
+  .lead { font-size: 14px; }
+
+  .cards-3 { grid-template-columns: 1fr; margin-top: 28px; }
+  .card3 { padding: 22px 18px; }
+
+  .wines { grid-template-columns: 1fr; margin-top: 28px; }
+  .wine { padding: 22px 18px; }
+  .wine-n { font-size: 36px; }
+
+  .two-col { gap: 36px; margin-top: 28px; }
+  .tl-item { grid-template-columns: 44px 1fr; gap: 12px; padding: 16px 0; }
+  .tl-time { font-size: 9px; }
+  .tl-title { font-size: 13px; }
+  .tl-text { font-size: 12px; }
+  .incl-item { font-size: 13px; padding: 14px 0; gap: 12px; }
+
+  .compare-wrap { margin-top: 28px; }
+  .compare tbody td, .compare thead th { padding: 10px 12px; font-size: 12px; }
+
+  .price-box { margin: 28px 0 0; padding: 28px 18px; border-left: none; border-right: none; }
+  .big-num { font-size: 58px; }
+  .price-box-title { font-size: 24px; }
+  .chk-list li { font-size: 13px; }
+
+  .faq-list { margin-top: 28px; }
+  .faq-q { font-size: 14px; padding: 17px 0; }
+  .faq-a { font-size: 13px; }
+
+  .footer-band { padding: 44px 16px; }
+  .footer-band h2 { font-size: 24px; }
+  .footer-bar { flex-direction: column; text-align: center; gap: 4px; padding: 14px 16px; }
+
+  .sticky-bar { padding: 10px 16px 14px; gap: 12px; }
+  .sticky-bar-price { font-size: 21px; }
+  .sticky-bar-btn { padding: 11px 16px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-bar">
+  <div class="sticky-bar-info">
+    <div class="sticky-bar-label">Sessão única</div>
+    <div class="sticky-bar-price">€64,90</div>
+  </div>
+  <a href="#inscricao" class="sticky-bar-btn">Reservar →</a>
+</div>
+
+<header class="topbar">
+  <div class="topbar-brand">Clube Vinhos &amp; Sabores</div>
+  <a href="#inscricao" class="topbar-cta">Reservar — €64,90</a>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-flag"><span>🍷</span><span>Nova formação · <strong>Clube Vinhos &amp; Sabores</strong></span></div>
+      <h1 class="hero-title">First<br><em>Glass</em></h1>
+      <p class="hero-sub">Vinho para a vida real.</p>
+      <p class="hero-desc">Não é uma aula de vinho. É uma sessão de 90 minutos para perceberes o que está no copo — ao teu ritmo, com curiosidade, sem pressão nenhuma.</p>
+      <div class="hero-price-row">
+        <div class="hero-price-num"><sup>€</sup>64<span style="font-size:.55em;font-weight:300">,90</span></div>
+        <div class="hero-price-meta">por pessoa · sessão única<br>6 vinhos · certificado · conteúdo digital</div>
+      </div>
+      <a href="#inscricao" class="btn btn-red">Reservar o meu lugar →</a>
+    </div>
+    <div class="hero-visual">
+      <div class="feat"><div class="feat-icon">🍾</div><div><div class="feat-title">6 vinhos na sessão</div><div class="feat-text">Brancos, tintos, espumante e Porto — estilos diferentes para perceberes o que te faz sentido.</div></div></div>
+      <div class="feat"><div class="feat-icon">📍</div><div><div class="feat-title">Hotel Mercure, Lisboa</div><div class="feat-text">Sete Rios. Um espaço confortável, sem a frieza de uma sala de formação.</div></div></div>
+      <div class="feat"><div class="feat-icon">📱</div><div><div class="feat-title">Tudo fica no teu telemóvel</div><div class="feat-text">Fichas dos vinhos e sugestões enviadas por email no final da sessão.</div></div></div>
+      <div class="feat"><div class="feat-icon">📜</div><div><div class="feat-title">Certificado de participação</div><div class="feat-text">Digital, emitido pelo Clube de Vinhos &amp; Sabores.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="chips-strip">
+  <div class="chip"><span>🍾</span> 6 vinhos</div>
+  <div class="chip"><span>📍</span> Hotel Mercure</div>
+  <div class="chip"><span>⏱️</span> 90 minutos</div>
+  <div class="chip"><span>📱</span> Conteúdo digital</div>
+  <div class="chip"><span>📜</span> Certificado</div>
+  <div class="chip"><span>👥</span> Máx. 12 pessoas</div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="label">Para quem é</div>
+    <h2 class="display">Não é preciso gostar de vinho.<br><em>Só precisas de curiosidade.</em></h2>
+    <p class="lead">Feito para quem quer começar — sem ter de fingir que já sabe.</p>
+    <div class="cards-3">
+      <div class="card3"><span class="card3-icon">🍽️</span><div class="card3-title">Nos jantares, escolhes sempre o mesmo</div><p class="card3-text">Pegas na carta, não percebes nada e pedes o que está no meio. Chegou a altura de te sentires à vontade nesse momento.</p></div>
+      <div class="card3"><span class="card3-icon">🎉</span><div class="card3-title">Preferes cerveja ou cocktails</div><p class="card3-text">O vinho nunca te convenceu porque ninguém te explicou bem. Talvez ainda não tenhas encontrado o teu estilo.</p></div>
+      <div class="card3"><span class="card3-icon">🎁</span><div class="card3-title">Queres oferecer uma boa garrafa</div><p class="card3-text">Fica sempre aquela dúvida na loja. Depois desta sessão, escolhes com confiança — e com história para contar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="label">O que vais provar</div>
+    <h2 class="display">6 vinhos,<br><em>6 descobertas.</em></h2>
+    <p class="lead">Cada vinho escolhido para te dar uma perspetiva diferente — não para impressionar, mas para perceberes o que está no copo.</p>
+    <div class="wines">
+      <div class="wine"><div class="wine-n">01</div><div class="wine-tag">Branco Fresco</div><div class="wine-name">O vinho do verão</div><p class="wine-desc">Leve e com bastante vivacidade. Costuma converter quem diz que não gosta de branco.</p><div class="wine-note">Descobres: frescura e leveza</div></div>
+      <div class="wine"><div class="wine-n">02</div><div class="wine-tag">Branco com Mais Corpo</div><div class="wine-name">O branco que surpreende</div><p class="wine-desc">Com passagem por madeira. Mostra que branco não é tudo igual.</p><div class="wine-note">Descobres: a influência da madeira</div></div>
+      <div class="wine"><div class="wine-n">03</div><div class="wine-tag">Tinto Mais Leve</div><div class="wine-name">O tinto para começar</div><p class="wine-desc">Frutado e macio. Bom ponto de partida para quem acha que tinto é sempre pesado.</p><div class="wine-note">Descobres: textura e suavidade</div></div>
+      <div class="wine"><div class="wine-n">04</div><div class="wine-tag">Tinto com Carácter</div><div class="wine-name">O tinto que fica na memória</div><p class="wine-desc">Mais intenso, com aromas que se vão abrindo. Aqui percebes porque as pessoas ficam fascinadas.</p><div class="wine-note">Descobres: complexidade e evolução</div></div>
+      <div class="wine"><div class="wine-n">05</div><div class="wine-tag">Espumante</div><div class="wine-name">Não é só para festas</div><p class="wine-desc">Há muito mais além do Prosecco. Percebemos juntos quando faz sentido cada estilo.</p><div class="wine-note">Descobres: estilos e momentos certos</div></div>
+      <div class="wine"><div class="wine-n">06</div><div class="wine-tag">Vinho do Porto</div><div class="wine-name">O vinho que fecha a noite</div><p class="wine-desc">O mais português de todos. Como apreciá-lo e porque o mundo inteiro o respeita.</p><div class="wine-note">Descobres: um clássico português</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--cream)">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <div class="label">Como decorre</div>
+        <h2 class="display">90 minutos<br><em>sem pressa.</em></h2>
+        <p class="lead" style="margin-bottom:0">Nada de testes. Uma tarde descontraída com pessoas que também estão a descobrir.</p>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-time">00:00</div><div><div class="tl-title">Chegada e boas-vindas</div><div class="tl-text">Conhecemo-nos, copo de prova na mão, sem formalidades.</div></div></div>
+          <div class="tl-item"><div class="tl-time">00:15</div><div><div class="tl-title">Como olhar e cheirar um vinho</div><div class="tl-text">As coisas simples que fazem toda a diferença.</div></div></div>
+          <div class="tl-item"><div class="tl-time">00:30</div><div><div class="tl-title">Os 6 vinhos, um a um</div><div class="tl-text">Com contexto, histórias e espaço para perguntar tudo o que quiseres.</div></div></div>
+          <div class="tl-item"><div class="tl-time">01:15</div><div><div class="tl-title">Vinho no dia a dia</div><div class="tl-text">O que combina com pizza, sushi, queijo ou num jantar de trabalho.</div></div></div>
+          <div class="tl-item"><div class="tl-time">01:30</div><div><div class="tl-title">Certificado e tudo por email</div><div class="tl-text">Levas as fichas dos vinhos diretamente para o telemóvel.</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="label">O que está incluído</div>
+        <h2 class="display">Tudo o que<br><em>precisas.</em></h2>
+        <div class="incl">
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>6 vinhos</strong> — brancos, tintos, espumante e Porto</div></div>
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>Copos de prova</strong> para cada vinho — faz diferença, e vais perceber porquê</div></div>
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>Tudo por email</strong> — fichas dos vinhos e guia para continuares</div></div>
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>Certificado de participação</strong> digital pelo Clube de Vinhos &amp; Sabores</div></div>
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><strong>Um especialista presente</strong> — direto e sem pose</div></div>
+          <div class="incl-item"><div class="incl-dot"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.2 2.2L7.5 2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div>Espaço para <strong>perguntar tudo</strong> — não existe pergunta idiota aqui</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="label">O que nos distingue</div>
+    <h2 class="display">First Glass vs.<br><em>curso tradicional.</em></h2>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead><tr><th></th><th class="hl">First Glass</th><th>Curso tradicional</th></tr></thead>
+        <tbody>
+          <tr><td>Linguagem</td><td class="hl">Simples e direta</td><td>Técnica e formal</td></tr>
+          <tr><td>Ambiente</td><td class="hl">Descontraído, à vontade</td><td>Sala de formação</td></tr>
+          <tr><td>Conhecimento prévio</td><td class="hl">Não é preciso nenhum</td><td>Recomendado</td></tr>
+          <tr><td>Foco</td><td class="hl">Confiança e prazer</td><td>Teoria e técnica</td></tr>
+          <tr><td>Duração</td><td class="hl">90 minutos</td><td>Meio dia ou mais</td></tr>
+          <tr><td>Após a sessão</td><td class="hl">Tudo enviado por email</td><td>Os teus apontamentos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="price-section" id="inscricao">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="label" style="justify-content:center">Inscrição</div>
+      <h2 class="display" style="text-align:center">Reserva o teu<br><em>lugar.</em></h2>
+    </div>
+    <div class="price-box">
+      <div class="price-box-title">First Glass</div>
+      <div class="price-box-sub">Sessão única · Hotel Mercure, Sete Rios, Lisboa</div>
+      <div class="big-num"><sup>€</sup>64<span style="font-size:.45em;font-weight:300">,90</span></div>
+      <div class="big-sub">por pessoa · pagamento único</div>
+      <ul class="chk-list">
+        <li>6 vinhos — brancos, tintos, espumante e Porto</li>
+        <li>90 minutos com um especialista presente</li>
+        <li>Copos de prova para cada vinho</li>
+        <li>Fichas e guia enviados por email</li>
+        <li>Certificado de participação digital</li>
+        <li>Possibilidade de trocar a data se precisares</li>
+      </ul>
+      <a href="#" class="btn btn-red" style="width:100%;justify-content:center">Reservar o meu lugar →</a>
+      <div class="pays">
+        <span class="pay">Visa</span><span class="pay">Mastercard</span><span class="pay">PayPal</span><span class="pay">Multibanco</span><span class="pay">MB Way</span><span class="pay">Klarna</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div style="text-align:center">
+      <div class="label" style="justify-content:center">Dúvidas</div>
+      <h2 class="display" style="text-align:center">Perguntas<br><em>&amp; Respostas.</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Preciso de saber algo sobre vinho para participar?</div><div class="faq-a">Não. O First Glass foi feito exatamente para quem está a começar do zero. Não há respostas certas ou erradas — há apenas a tua experiência e as tuas perguntas.</div></div>
+      <div class="faq-item"><div class="faq-q">Quantas pessoas há em cada sessão?</div><div class="faq-a">No máximo 12 pessoas, para que toda a gente se sinta à vontade e tenha espaço para perguntar.</div></div>
+      <div class="faq-item"><div class="faq-q">O que recebo no final?</div><div class="faq-a">Enviamos tudo por email: certificado de participação, fichas dos vinhos que provámos e sugestões para continuares a explorar ao teu ritmo.</div></div>
+      <div class="faq-item"><div class="faq-q">Posso oferecer como presente?</div><div class="faq-a">Sim. Temos voucher digital válido por 12 meses, com mensagem personalizada, enviado por email logo após a compra. Entra em contacto connosco.</div></div>
+      <div class="faq-item"><div class="faq-q">E depois — há continuação?</div><div class="faq-a">Sim. Quem faz o First Glass tem acesso a preço especial no Curso de Iniciação Nível I — o passo seguinte para quem quer ir mais fundo.</div></div>
+      <div class="faq-item"><div class="faq-q">Posso trocar a data depois de me inscrever?</div><div class="faq-a">Sim, mediante disponibilidade. Basta contactar-nos e tratamos de tudo sem complicações.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-band">
+  <h2>O primeiro copo<br>é sempre <em>o mais importante.</em></h2>
+  <p>90 minutos. 6 vinhos. Uma tarde que vai mudar a forma como olhas para uma carta de vinhos.</p>
+  <a href="#inscricao" class="btn btn-red" style="display:inline-flex">Reservar agora · €64,90 →</a>
+</div>
+<div class="footer-bar">
+  <strong>Clube de Vinhos &amp; Sabores</strong>
+  <span>Hotel Mercure · Sete Rios · Lisboa</span>
+</div>
+
+<script>
+document.querySelectorAll('.faq-item').forEach(el => {
+  el.addEventListener('click', () => {
+    const open = el.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) el.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
